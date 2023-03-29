@@ -1,3 +1,4 @@
+import os
 import nltk
 from pyresparser import ResumeParser
 from docx import Document
@@ -10,14 +11,31 @@ from nltk.corpus import stopwords
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import NearestNeighbors
+from dotenv import load_dotenv
+from azure.ai.formrecognizer import DocumentAnalysisClient
+from azure.ai.formrecognizer import DocumentModelAdministrationClient
+from azure.core.credentials import AzureKeyCredential
+from docx import Document
 
-stopw  = set(stopwords.words('english'))
+# Carga las variables de entorno desde el archivo .env
+load_dotenv()
+
+# Configurar el cliente de Form Recognizer
+endpoint = os.getenv("AZURE_FORM_RECOGNIZER_ENDPOINT")
+key = os.getenv("AZURE_FORM_RECOGNIZER_KEY")
+model_id = "model_1"
+
+credential = AzureKeyCredential(key)
+document_model_admin_client = DocumentModelAdministrationClient(endpoint, credential)
+
+
+
+stopw  = set(stopwords.words('english','spanish'))
 
 df =pd.read_csv('job_final.csv') 
 df['test']=df['Job_Description'].apply(lambda x: ' '.join([word for word in str(x).split() if len(word)>2 and word not in (stopw)]))
+
 app=Flask(__name__)
-
-
 
 @app.route('/')
 def hello():
@@ -34,7 +52,13 @@ def submit_data():
     if request.method == 'POST':
         
         f=request.files['userfile']
-        f.save(f.filename)
+        f=f.save(f.filename)
+        
+        # Make sure your document's type is included in the list of document types the custom model can analyze
+        document_analysis_client = DocumentAnalysisClient(endpoint=endpoint, credential=AzureKeyCredential(key))
+        poller = document_analysis_client.begin_analyze_document(model_id, document= f)
+        result = poller.result()
+        
         try:
             doc = Document()
             with open(f.filename, 'r') as file:
