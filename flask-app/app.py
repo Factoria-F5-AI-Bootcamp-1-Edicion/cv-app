@@ -1,3 +1,4 @@
+from werkzeug.utils import secure_filename
 import os
 import nltk
 from pyresparser import ResumeParser
@@ -16,17 +17,9 @@ from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.ai.formrecognizer import DocumentModelAdministrationClient
 from azure.core.credentials import AzureKeyCredential
 from docx import Document
+from azure_ocr import ocr_analysis
 
-# Carga las variables de entorno desde el archivo .env
-load_dotenv()
 
-# Configurar el cliente de Form Recognizer
-endpoint = os.getenv("AZURE_FORM_RECOGNIZER_ENDPOINT")
-key = os.getenv("AZURE_FORM_RECOGNIZER_KEY")
-model_id = "model_1"
-
-credential = AzureKeyCredential(key)
-document_model_admin_client = DocumentModelAdministrationClient(endpoint, credential)
 
 
 
@@ -50,14 +43,10 @@ def home():
 @app.route('/submit',methods=['POST'])
 def submit_data():
     if request.method == 'POST':
-        
+
         f=request.files['userfile']
-        f=f.save(f.filename)
-        
-        # Make sure your document's type is included in the list of document types the custom model can analyze
-        document_analysis_client = DocumentAnalysisClient(endpoint=endpoint, credential=AzureKeyCredential(key))
-        poller = document_analysis_client.begin_analyze_document(model_id, document= f)
-        result = poller.result()
+        f.save(f.filename)
+        ocr_analysis(f.filename)
         
         try:
             doc = Document()
