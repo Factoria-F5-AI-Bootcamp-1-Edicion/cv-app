@@ -1,6 +1,5 @@
-<h1 align ="center"> Analizador de Cvs  </h1> 
 <p align = "center">
-<img src="https://user-images.githubusercontent.com/109460138/229610424-d0c0fc5d-8103-4f9c-931c-d0d222027f93.jpg" height=”300”       width=1000” style= "text-align: center"> 
+<img src="https://user-images.githubusercontent.com/109460138/229746780-a2aa950b-0870-4ee3-8b56-8e895cd43df6.png" height=”300”       width=1000” style= "text-align: center"> 
 </p>
 
 ## :notebook: Proyecto 
@@ -9,8 +8,13 @@ Por encargo de la empresa Simplon, empresa matriz de la Escuela Factoría F5, cr
 ## :tickets: Azure
 Se utiliza el Cognitive Service de Azure para activar el Form Recognicer y poder extraer el texto de las imágenes por medio de la técnica OCR (Optical Character Recognition). También se utiliza el servicio de Contenedores con Docker. 
 
-## :factory: Despliegue
-Será necesario... 
+## :factory: Funcionalidades
+- `Funcionalidad 1`: Extracción de textos de los CVs.
+- `Funcionalidad 2`: Comparación de los CVs con ofertas de trabajo dadas por el cliente. 
+#### Añadido de extras al proyecto requerido inicialmente
+- `Funcionalidad 3`: Scraping de ofertas de trabajo de sitios web como p.e. Infojobs. 
+- `Funcionalidad 4`: Activación del recurso Cognitive Service y Form Recognizer de Azure con OCR para extraer los textos de los pdfs.  
+- `Funcionalidad 5`: Generación de un contenedor con Docker en Azure para posterior despliegue y acceso por parte del cliente.  
 
 ## :key: Variables de Entorno requeridas
 Las siguientes variables son necesarias para acceder a la conexión con los servicios de Azure
