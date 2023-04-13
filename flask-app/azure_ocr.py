@@ -36,12 +36,15 @@ def ocr_analysis(doc_name):
     except Exception as e:
         return {'status': 'error', 'message': str(e)}
 
+
+# NLTK Function to clean extracted text
 import nltk
 from nltk.corpus import stopwords
 import re
 
 # download stopwords if necessary
 nltk.download('stopwords')
+nltk.download('punkt')
 
 # define stopwords list
 stop_words = set(stopwords.words('english', 'spanish'))
@@ -52,8 +55,12 @@ def clean_text(text):
     text = text.lower()
     # remove URLs
     text = re.sub(r'http\S+', '', text)
+    
+    # replace \n with a space
+    text = re.sub(r'\n', ' ', text)
+    text = re.sub(r'\\n', ' ', text)
     # remove special characters, punctuation, and emojis
-    text = re.sub(r'[^\w\s]','',text)
+    text = re.sub(r'[^\w\s]', '', text)
     # tokenize into words
     words = nltk.word_tokenize(text)
     # remove stopwords
@@ -62,6 +69,10 @@ def clean_text(text):
     cleaned_text = ' '.join(words)
     return cleaned_text
 
+
+
+
+#Spacy function to extract skills
 import spacy
 from skill_keywords import skills_list
 
