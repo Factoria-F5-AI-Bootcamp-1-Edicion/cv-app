@@ -2,6 +2,8 @@
 <img src="https://user-images.githubusercontent.com/109460138/229746780-a2aa950b-0870-4ee3-8b56-8e895cd43df6.png" height=”300”       width=850” style= "text-align: center"> 
 </p>
 
+### :computer: App Url: http://analizador-cvs.audbfzaehdake9ah.westeurope.azurecontainer.io:5000/
+
 ### :busts_in_silhouette: Componentes
 <b>David García,</b> (product owner) :arrow_right: https://github.com/DooFromash  
 <b>Javier Inglés,</b> (scrum master) :arrow_right: https://github.com/Javingles  
